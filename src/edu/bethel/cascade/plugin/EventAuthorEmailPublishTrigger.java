@@ -22,12 +22,12 @@ import com.hannonhill.cascade.api.operation.result.ReadOperationResult;
 import com.hannonhill.cascade.model.dom.identifier.EntityType;
 import com.hannonhill.cascade.model.dom.identifier.EntityTypes;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMessage;
+//import javax.mail.*;
+//import javax.mail.internet.MimeMessage;
 
 /**
  * This plug-in does some really neat stuff!
- * @author <Your Name Here>
+ * @authors Mark Engstrom and Caleb Schwarze
  */
 public class EventAuthorEmailPublishTrigger implements PublishTrigger
 {
