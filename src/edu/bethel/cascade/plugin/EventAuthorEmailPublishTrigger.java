@@ -22,11 +22,10 @@ import com.hannonhill.cascade.api.operation.result.ReadOperationResult;
 import com.hannonhill.cascade.model.dom.identifier.EntityType;
 import com.hannonhill.cascade.model.dom.identifier.EntityTypes;
 
-//import javax.mail.*;
-//import javax.mail.internet.MimeMessage;
-
+import javax.mail.*;
+import javax.mail.internet.*;
 /**
- * This plug-in does some really neat stuff!
+ * Publish trigger to email authors of events when they are published for the first time
  * @authors Mark Engstrom and Caleb Schwarze
  */
 public class EventAuthorEmailPublishTrigger implements PublishTrigger
@@ -44,40 +43,33 @@ public class EventAuthorEmailPublishTrigger implements PublishTrigger
         try 
         {
 			Page page = (Page) readAsset(information.getEntityId(), EntityTypes.TYPE_PAGE);
-			//only on publish to production
-			if(page.getLastPublishedOn() == null)
+			if(page.getDataDefinitionPath().equalsIgnoreCase("Event")) //Makes sure the page is an event
 			{
-				if(information.isUnpublish() == false)
+				if(information.isUnpublish() == false) //Checks to make sure we are publishing the event
 				{
-					if(page.getDataDefinitionPath().equalsIgnoreCase("Event"))
+					if(page.getLastPublishedOn() == null) //Makes sure this is the first time this event is being published
 					{
 						//if(information.getDestinationName().equalsIgnoreCase("Production bethel.edu"))//this is for cms.bethel.edu
 						if(information.getDestinationName().equalsIgnoreCase("public www html"))//this is for testing in web.xp
 						{
-							System.out.println("DestinationName: " + information.getDestinationName());
-							System.out.println("Event page, first timed published. Next step: email. Path: " + information.getEntityPath());
-							
-							////////////////////////////////
-							////////////////////////////////
-							////////////////////////////////
-							/*Properties props = new Properties();
-							Session session = Session.getDefaultInstance(props, null);
-	
-						    try {
-						        MimeMessage msg = new MimeMessage(session);
-						        msg.setFrom("no-reply@bethel.edu");
-						        msg.setRecipients(Message.RecipientType.TO,
-						                          "mw-engstrom@bethel.edu");
-						        msg.setSubject("JavaMail hello world example");
-						        msg.setSentDate(new Date());
-						        msg.setText("Hello, world!\n");
-						        Transport.send(msg);
-						    } catch (MessagingException mex) {
-						        System.out.println("send failed, exception: " + mex);
-						    }*/
-							////////////////////////////////
-							////////////////////////////////
-							////////////////////////////////
+							System.out.println("Author name: " + page.getMetadata().getAuthor());							
+							String to = "mw-engstrom@bethel.edu";
+							String from = "no-reply@bethel.edu";
+							String host = "localhost";
+							Properties properties = System.getProperties();
+							properties.setProperty("mail.smtp.host", host);
+							Session session = Session.getDefaultInstance(properties);
+							try{
+								MimeMessage message = new MimeMessage(session);
+								message.setFrom(new InternetAddress(from));
+								message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+								message.setSubject("Your event has been published");
+								message.setText("Your event, " + page.getMetadata().getTitle() + ", has been published.");
+								Transport.send(message);
+								System.out.println("Sent message successfully....");
+							}catch(MessagingException mex){
+								mex.printStackTrace();
+							}
 						}
 					}
 				}
