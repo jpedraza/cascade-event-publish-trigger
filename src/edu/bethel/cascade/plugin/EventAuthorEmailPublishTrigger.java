@@ -45,17 +45,17 @@ public class EventAuthorEmailPublishTrigger implements PublishTrigger
 			Page page = (Page) readAsset(information.getEntityId(), EntityTypes.TYPE_PAGE);
 			if(page.getDataDefinitionPath().equalsIgnoreCase("Event")) //Makes sure the page is an event
 			{
-				//if(page.getCreatedBy().equalsIgnoreCase("tinker")) //Only email author for events created by tinker
+				if(page.getCreatedBy().equalsIgnoreCase("tinker")) //Only email author for events created by tinker
 				{
 					if(information.isUnpublish() == false) //Checks to make sure we are publishing the event
 					{
 						if(page.getLastPublishedOn() == null) //Makes sure this is the first time this event is being published
 						{
-							//if(information.getDestinationName().equalsIgnoreCase("Production bethel.edu"))//this is for cms.bethel.edu
-							if(information.getDestinationName().equalsIgnoreCase("public www html"))//this is for testing in web.xp
+							//if(information.getDestinationName().equalsIgnoreCase("public www html"))//this is for testing in web.xp
+							if(information.getDestinationName().equalsIgnoreCase("Production bethel.edu"))//this is for cms.bethel.edu
 							{
-								//String to = page.getMetadata().getAuthor() + "@bethel.edu";
-								String to = "mw-engstrom@bethel.edu";
+								String to = page.getMetadata().getAuthor() + "@bethel.edu";
+								//String to = "mw-engstrom@bethel.edu";
 								String from = "no-reply@bethel.edu";
 								String host = "localhost";
 								Properties properties = System.getProperties();
@@ -66,9 +66,9 @@ public class EventAuthorEmailPublishTrigger implements PublishTrigger
 									message.setFrom(new InternetAddress(from));
 									message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 									message.setSubject("Your event has been published");
-									message.setText("Your event, " + page.getMetadata().getTitle() + ", has been published.");
+									message.setText("Your event, " + page.getMetadata().getTitle() + ", has been published. Visit http://tinker.bethel.edu to see the event.");
 									Transport.send(message);
-									System.out.println("Sent message successfully....");
+									System.out.println("Sent message successfully to " + to);
 								}catch(MessagingException mex){
 									mex.printStackTrace();
 								}
