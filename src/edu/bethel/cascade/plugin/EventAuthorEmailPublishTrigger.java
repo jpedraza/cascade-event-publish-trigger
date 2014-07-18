@@ -66,7 +66,7 @@ public class EventAuthorEmailPublishTrigger implements PublishTrigger
 									message.setFrom(new InternetAddress(from));
 									message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 									message.setSubject("Your event has been published");
-									message.setText("Your event, " + page.getMetadata().getTitle() + ", has been published. Visit http://tinker.bethel.edu to see the event.");
+									message.setText("Your event, " + page.getMetadata().getTitle() + ", has been published. Visit https://tinker.bethel.edu to see the event.");
 									Transport.send(message);
 									System.out.println("Sent message successfully to " + to);
 								}catch(MessagingException mex){
