@@ -1,5 +1,6 @@
 /*
- * Created on Jan 17, 2008 by Zach Bailey
+ *  Based off an example created on Jan 17, 2008 by Zach Bailey
+ *  This version created for Bethel University on Jul 25, 2014
  *
  * This software is offered as-is with no license and is free to reproduce or use as anyone sees fit.
  */
@@ -26,7 +27,6 @@ import javax.mail.*;
 import javax.mail.internet.*;
 /**
  * Publish trigger to email authors of events when they are published for the first time
- * @authors Mark Engstrom and Caleb Schwarze
  */
 public class EventAuthorEmailPublishTrigger implements PublishTrigger
 {
@@ -66,7 +66,7 @@ public class EventAuthorEmailPublishTrigger implements PublishTrigger
 									message.setFrom(new InternetAddress(from));
 									message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 									message.setSubject("Your event has been published");
-									message.setText("Your event, " + page.getMetadata().getTitle() + ", has been published. Visit https://tinker.bethel.edu to see the event.");
+									message.setContent("Your event, " + page.getMetadata().getTitle() + ", has been approved. Visit <a href=\"https://tinker.bethel.edu\">tinker.bethel.edu</a> to see your new event page.<br/><br/>If you have any questions, please contact Conference and Event Services.<br/><br/>Conference and Event Services<br/><a href=\"mailto:event-services@bethel.edu\">event-services@bethel.edu</a><br/>651.638.6090", "text/html; charset=utf-8");
 									Transport.send(message);
 									System.out.println("Sent message successfully to " + to);
 								}catch(MessagingException mex){
