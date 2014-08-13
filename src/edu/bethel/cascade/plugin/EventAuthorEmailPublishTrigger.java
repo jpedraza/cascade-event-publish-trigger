@@ -66,7 +66,7 @@ public class EventAuthorEmailPublishTrigger implements PublishTrigger
 									message.setFrom(new InternetAddress(from));
 									message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 									message.setSubject("Your event has been published");
-									message.setContent("Your event, " + page.getMetadata().getTitle() + ", has been approved. Visit <a href=\"https://tinker.bethel.edu\">tinker.bethel.edu</a> to see your new event page.<br/><br/>If you have any questions, please contact Conference and Event Services.<br/><br/>Conference and Event Services<br/><a href=\"mailto:event-services@bethel.edu\">event-services@bethel.edu</a><br/>651.638.6090", "text/html; charset=utf-8");
+									message.setContent("Your event, [" + page.getMetadata().getTitle() + "], has been approved. Visit <a href=\"https://tinker.bethel.edu/event/\">tinker.bethel.edu</a> to see your new event page or make changes to it.<br/><br/>If you have any questions, please contact Conference and Event Services.<br/><br/>Conference and Event Services<br/><a href=\"mailto:event-services@bethel.edu\">event-services@bethel.edu</a><br/>651.638.6090", "text/html; charset=utf-8");
 									Transport.send(message);
 									System.out.println("Sent message successfully to " + to);
 								}catch(MessagingException mex){
